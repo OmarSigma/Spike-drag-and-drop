@@ -64,10 +64,11 @@ window.PdfViewerSignature = {
       documentPath: 'Hive_Succinctly.pdf',
       serviceUrl: urlApi,
       pageMouseover: function (a) {
-        console.log(a);
+        //console.log(a);
       },
       pageClick: function (a) {
-        console.log(a);
+        console.log(a.pageNumber);
+        return a.pageNumber;
       },
     });
 
@@ -132,9 +133,27 @@ window.PdfViewerSignature = {
     }
 
     function handleDrop(e) {
-      var page = parseInt(e.currentTarget.id.split('_pageDiv_')[1]) + 1;
+
+      function click(x,y){
+        var ev = document.createEvent("MouseEvent");
+        var el = document.elementFromPoint(x,y);
+        ev.initMouseEvent(
+            "click",
+            true /* bubble */, true /* cancelable */,
+            window, null,
+            x, y, 0, 0, /* coordinates */
+            false, false, false, false, /* modifier keys */
+            0 /*left*/, null
+        );
+        el.dispatchEvent(ev);
+      }
+
+      // var page = parseInt(e.currentTarget.id.split('_pageDiv_')[1]) + 1;
       var x = e.offsetX;
       var y = e.offsetY;
+
+      var page =  click(x, y);
+
       var draggedElementId = e.dataTransfer.getData('draggedElementId');
       var draggedElement = document.querySelector('#' + draggedElementId);
       var signer = draggedElement.textContent;
@@ -185,3 +204,32 @@ window.PdfViewerSignature.loadPdfViewer(
   'https://ej2services.syncfusion.com/production/web-services/api/pdfviewer'
 );
 window.PdfViewerSignature.addSignatureHandlers('.box');
+
+function click(x,y){
+  var ev = document.createEvent("MouseEvent");
+  var el = document.elementFromPoint(x,y);
+  ev.initMouseEvent(
+      "click",
+      true /* bubble */, true /* cancelable */,
+      window, null,
+      x, y, 0, 0, /* coordinates */
+      false, false, false, false, /* modifier keys */
+      0 /*left*/, null
+  );
+  el.dispatchEvent(ev);
+}
+function click(x,y){
+  var ev = document.createEvent("MouseEvent");
+  var el = document.elementFromPoint(x,y);
+  ev.initMouseEvent(
+      "click",
+      true /* bubble */, true /* cancelable */,
+      window, null,
+      x, y, 0, 0, /* coordinates */
+      false, false, false, false, /* modifier keys */
+      0 /*left*/, null
+  );
+  el.dispatchEvent(ev);
+}
+
+
